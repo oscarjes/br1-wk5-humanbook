@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   validates :name, :email, presence: true
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships
   has_secure_password
 
   def image_url_or_default
@@ -18,4 +20,18 @@ class User < ApplicationRecord
       User.create! hash
     end
   end
+
+  def is_friend?(another)
+    friends.include?(another)
+  end
+
+  def add_friend(another)
+    unless is_friend?(another)
+      friends << another
+    end
+  end
+
+  def remove_friend(another)
+    friendships.find_by(friend_id: another.id).destroy
+  end 
 end
