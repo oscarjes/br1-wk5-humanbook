@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_secure_password
 
   def image_url_or_default
-    image_url.presence || "http://lorempixel.com/400/200/sports/Dummy-Text/"
+    image_url.presence || "http://lorempixel.com/128/128/sports/Dummy-Text/"
   end
 
   def self.generate_users(n = 5, gender = "female")

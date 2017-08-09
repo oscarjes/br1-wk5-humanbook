@@ -1,10 +1,29 @@
 <table class="table">
+  <thead>
+  <tr>
+    <th>Avatar</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Action</th>
+  </tr>
+  </thead>
   <tbody>
     <% User.all.each do |user| %>
       <tr>
         <td><%= image_tag user.image_url_or_default %></td>
         <td><%= user.name %></td>
         <td><%= user.email %></td>
+        <td>
+          <% if current_user.is_friend?(user) %>
+            <%= link_to "Remove Friend", remove_friend_path(user_id: user.id), class: "button is-danger", method: :delete %>
+          <% else %>
+            <%= form_for current_user.friendships.build(friend: user) do |f| %>
+             <%= f.hidden_field :user_id %>
+             <%= f.hidden_field :friend_id %>
+              <%= f.submit "Add Friend", class: "button is-primary"  %>
+            <% end %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
