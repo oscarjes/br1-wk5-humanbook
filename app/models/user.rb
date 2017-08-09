@@ -34,4 +34,14 @@ class User < ApplicationRecord
   def remove_friend(another)
     friendships.find_by(friend_id: another.id).destroy
   end 
+
+  def self.from_omniauth(auth)
+    puts auth
+    email = auth[:info][:email] || "#{auth[:uid]}@facebook.com"
+    user = where(email: email).first_or_initialize
+    user.password = [*('A'..'Z')].sample(8).join
+    user.name = auth[:info][:name]
+    user.image_url = auth[:info][:image]
+    user.save && user
+  end
 end

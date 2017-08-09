@@ -47,3 +47,5 @@ gem "http"
 gem "bulma-rails", "~> 0.4.3"
 gem "rails-erd"
 gem 'turbolinks', '~> 5'
+gem 'omniauth'
+gem 'omniauth-facebook', '~> 4.0.0'
